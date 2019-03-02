@@ -4,10 +4,10 @@ public class ScreenUpdater implements Runnable {
 	public void run() {
 		for (;;) {
 			try {
-				Thread.currentThread().sleep(1000 * 6);
+				Thread.currentThread().sleep(1000 * 60);
 			} catch (InterruptedException ie) {}
 
-			System.out.println(Thread.currentThread().getName() + ": updating screen");
+			System.out.println("updating screen");
 		}
 	}
 }

@@ -2,7 +2,7 @@ import java.util.concurrent.*;
 
 public class ThreadingAssignment {
 	public static void main(String[] args) {
-		System.out.println("I am thread: " + Thread.currentThread().getName());
+		
 
 		Thread screenUpdater = new Thread(new ScreenUpdater());
 		Thread intHandler = new Thread(new IntHandler());
@@ -18,3 +18,4 @@ public class ThreadingAssignment {
 		} catch (InterruptedException ie) {}
 	}
 }
+
