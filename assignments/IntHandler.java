@@ -1,3 +1,8 @@
+//William Pulkownik
+//Assignment 1
+//Operating Systems
+//IntHandler.java
+
 import java.util.Scanner;
 import java.util.concurrent.*;
 import java.util.InputMismatchException;

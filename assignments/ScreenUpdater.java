@@ -1,3 +1,8 @@
+//William Pulkownik
+//Assignment 1
+//Operating Systems
+//screenUpdater.java
+
 import java.util.concurrent.*;
 
 public class ScreenUpdater implements Runnable {
