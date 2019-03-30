@@ -1,4 +1,4 @@
-//William Pulkownik
+//Bobby Reich
 import java.util.concurrent.Semaphore;
 
 class Consumer implements Runnable {
