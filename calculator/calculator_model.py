@@ -12,6 +12,7 @@ class CalculatorModel:
         self._state = State.START
 
     def _evaluate(self):
+        self._state = State.COLLECT_NUM1
         return eval('{} {} {}'.format(int(self._N1), self._operation, int(self._N2)))
 
 
@@ -44,13 +45,21 @@ class CalculatorModel:
     def handle_CE(self):
         if self._state == State.COLLECT_NUM1:
             self._N1 = '0'
+            self._N2 = '0'
+            
+        elif self._N2 == '0':
+            self._N1 = '0'
 
         elif self._state == State.COLLECT_NUM2:
             self._N2 = '0'
 
 
     def get_result(self):
-        return int(self._N1)
+        if self._state == State.COLLECT_NUM1:
+            return int(self._N1)
+        
+        elif self._state == State.COLLECT_NUM2:
+            return int(self._N2)
 
     def get_expr(self):
         return '{} {} {}'.format(self._N1.lstrip('0'), self._operation, self._N2.lstrip('0'))

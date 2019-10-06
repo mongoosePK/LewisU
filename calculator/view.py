@@ -75,7 +75,7 @@ class View():
 
 
     def refresh(self, value):
-        self.display.config(text= value)
+        self.display.config(text=value)
 
     def attach_keyboard(self, callback):
         self.root.bind("<Key>", callback)
