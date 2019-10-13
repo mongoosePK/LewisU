@@ -7,7 +7,7 @@
 
 #include <iostream>
 #include <stdlib.h>
-
+#include <utility>
 
 using namespace std;
 
@@ -16,7 +16,6 @@ void InitArray (int x[], int size, int value);
 int MaxArray (int x[], int size);
 int MinArray (int x[], int size);
 void bubbleSort (int x[], int size);
-void swap (int* x, int* y);
 
 const int INIT_VAL = 0;
 int main ()
@@ -68,35 +67,24 @@ int main ()
     // Test the above for arrays b[] of B_SIZE
     
     
-    cout << endl <<endl;
-    system ("PAUSE")
-    return 0;
-      
-}
-
-void swap (int* x, int* y)
-{
-    int temp = *x;
-    *x = *y;
-    *y = temp; 
+    // cout << endl <<endl;
+    // system ("PAUSE")
+    // return 0;
 }
 
 void bubbleSort (int x[], int size)
 {
     bool flag = true;
-    while (flag)
+    for (int i=0; i<size && flag; i++)
     {
-        for (int i=0;i<size-1;i++)
-        {
-            flag = false;
-            if (x[i]< x[i+1])
+        flag = false;
+        for (int j=0; j< size-1 ; j++)
+            if (x[j]> x[j+1])
             {
-                swap(x[i],x[i+1]);
+                swap(x[j],x[j+1]);
                 flag = true;
             }
-        }
-    } 
-
+    }
 }
 
 void InitArray (int x[], int size, int value)
@@ -115,10 +103,7 @@ void DisplayArray(int x[], int size)
     	
 		if (i % 5 == 0)
   		{
-  			
   			cout << "\n  " << i << " -->" << " \t" ;
- 			
-        
 		}
 		cout <<  x[i] << "  " ;
     }
