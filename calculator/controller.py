@@ -36,21 +36,22 @@ class Controller():
     def num_callback(self, num):
         print('number {} is clicked'.format(num))
         self.model.handle_digit(str(num))
-        self.view.refresh(self.model.get_result())
+        #self.view.refresh(self.model.get_result())
 
     def operation_callback(self, operation):
         self.model.handle_operation(operation)
-        self.view.refresh(self.model.get_expr())
+        #self.view.refresh(self.model.get_expr())
         print('operation: {}'.format(operation))
 
     def equal(self, event):
         print('equal pressed')
-        self.view.refresh(self.model.handle_EQ())
+        self.model.handle_EQ()
+        #self.view.refresh(self.model.handle_EQ())
 
     def clear(self, event):
         print('clear pressed')
         self.model.handle_CE()
-        self.view.refresh(self.model.get_result())
+        #self.view.refresh(self.model.get_result())
 
     def run(self):
         self.view.start()

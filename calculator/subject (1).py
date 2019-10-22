@@ -3,7 +3,7 @@ from typing import List
 
 class Observer(ABC):
     @abstractmethod
-    def update(self) -> None:
+    def update(self):
         '''callback to be called when subject changes state'''
         pass
 
@@ -18,23 +18,5 @@ class Subject(ABC):
         pass
 
     def notify(self) -> None:
-        
         '''must be overriden to notify observers'''
         pass
-
-class ConcreteSubject():
-    
-    _observers: List[Observer] = []
-
-    def attach(self, observer: Observer) -> None:
-        print("Attached an observer.")
-        self._observers.append(observer)
-
-    def detach(self, observer: Observer) -> None:
-        print("detached an observer")
-        self._observers.remove(observer)
-
-    def notify(self) -> None:
-        print("notifying observer")
-        for observer in self._observers:
-            observer.update(self)

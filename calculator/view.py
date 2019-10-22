@@ -1,7 +1,7 @@
 import tkinter as Tk
-
-
-class View():
+from subject import Observer, Subject, ConcreteSubject#, ConcreteObserver
+#from calculator_model import CalculatorModel
+class View(Observer):
     '''View in the MVC pattern assumes role of rendering user
     interface to the user, and maintaining an up to date view as
     it handles user interaction it receives from Controller.
@@ -64,6 +64,8 @@ class View():
         self.div.grid(row=3, column=6)
 
     def __init__(self):
+        super().__init__()
+
         self.root = Tk.Tk()
         self.root.title("MVC example: Calculator")
         self.root.geometry()
@@ -73,9 +75,15 @@ class View():
         self._add_numbers_keypad(self._frame)
         self._add_operations_keypad(self._frame)
 
-
     def refresh(self, value):
         self.display.config(text=value)
+
+
+    def update(self) -> None:
+        print("updating")
+       #not sure how to pass the value from the model into 
+       #notify and then to refresh
+        
 
     def attach_keyboard(self, callback):
         self.root.bind("<Key>", callback)
