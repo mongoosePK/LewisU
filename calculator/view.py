@@ -1,6 +1,6 @@
 import tkinter as Tk
-from subject import Observer, Subject, ConcreteSubject#, ConcreteObserver
-#from calculator_model import CalculatorModel
+from subject import Observer, Subject, ConcreteSubject
+
 class View(Observer):
     '''View in the MVC pattern assumes role of rendering user
     interface to the user, and maintaining an up to date view as
@@ -63,9 +63,9 @@ class View(Observer):
         self.div = Tk.Button(frame, text="/")
         self.div.grid(row=3, column=6)
 
-    def __init__(self):
+    def __init__(self, model):
         super().__init__()
-
+        self._model = model
         self.root = Tk.Tk()
         self.root.title("MVC example: Calculator")
         self.root.geometry()
@@ -81,6 +81,7 @@ class View(Observer):
 
     def update(self) -> None:
         print("updating")
+        self.refresh(self._model.get_result())
        #not sure how to pass the value from the model into 
        #notify and then to refresh
         

@@ -34,7 +34,7 @@ class ConcreteSubject():
         print("detached an observer")
         self._observers.remove(observer)
 
-    def notify(self) -> None:
+    def notify(self):
         print("notifying observer")
         for observer in self._observers:
-            observer.update(self)
+            observer.update()
