@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 """
 Created on Thu Jan  3 14:24:06 2019
-
-@author: Piotr Szczurek
+Modified on Sat 8 Feb 2020 17:18
+@authors: Piotr Szczurek, William Pulkownik
 
 This program implements A* for solving a sliding tile puzzle
 """
@@ -61,8 +61,8 @@ class PuzzleState():
 
 print('Artificial Intelligence')
 print('MP1: A* for Sliding Puzzle')
-print('SEMESTER: [put semester and year here]')
-print('NAME: [your name here]')
+print('SEMESTER: Spring 2020')
+print('NAME: William Pulkownik')
 print()
 
 # load random start state onto frontier priority queue
