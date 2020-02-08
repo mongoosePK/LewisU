@@ -1,0 +1,22 @@
+Quant
+
+
+The impact of a natural disaster is often measured by a handful of numbers: 
+the number of fatalities and injuries, the number of homes and buildings 
+destroyed, the cost of cleanup and repair. It doesn’t often account for 
+the emotional wounds inflicted on survivors.
+
+Even after the torrential rains end, or the flood recedes, or the fire 
+burns out, many people continue to feel an enormous amount of stress and 
+anxiety. And, scientists predict catastrophic weather events will become 
+more frequent (and more extreme) with rising global temperatures, putting 
+more people at risk for mental health problems.
+
+Social media platforms such as Twitter are widely used to express affective states, often
+in relation to particular entities, topics or events. We use the term “affect” to encompass
+sentiment, emotion, mood, and other related mental states.
+
+The automatic detection of affect from tweets1 has become a popular task due to its
+importance in commerce, politics, and sports (Liu, 2012). Most successful solutions to this
+problem, including its many variations, are based on supervised machine learning models
+trained on manually annotated examples (Mohammad et al., 2018).
