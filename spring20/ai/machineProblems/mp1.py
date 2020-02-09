@@ -15,7 +15,7 @@ class PuzzleState():
     def __init__(self,conf,g,predState):
         self.puzzle = conf     # Configuration of the state
         self.gcost = g         # Path cost
-        self._compute_heuristic_cost()  # Set heuristic cost
+        self.hcost = self._compute_heuristic_cost()  # Set heuristic cost
         self.fcost = self.gcost + self.hcost
         self.pred = predState  # Predecesor state
         self.zeroloc = np.argwhere(self.puzzle == 0)[0]
@@ -25,7 +25,7 @@ class PuzzleState():
         return tuple(self.puzzle.ravel()).__hash__()
     
     def _compute_heuristic_cost(self):
-        """ TODO """
+        return 0
     
     def is_goal(self):
         return np.array_equal(PuzzleState.SOLVED_PUZZLE,self.puzzle)
@@ -44,7 +44,6 @@ class PuzzleState():
     def show_path(self):
         if self.pred is not None:
             self.pred.show_path()
-        
         if PuzzleState.move==0:
             print('START')
         else:
@@ -63,18 +62,19 @@ print('Artificial Intelligence')
 print('MP1: A* for Sliding Puzzle')
 print('SEMESTER: Spring 2020')
 print('NAME: William Pulkownik')
-print()
+print('Notes: ')
 
 # load random start state onto frontier priority queue
 frontier = queue.PriorityQueue()
 a = np.loadtxt('mp1input.txt', dtype=np.int32)
 start_state = PuzzleState(a,0,None)
-
+print(f'startstate test:\n{start_state}')
 frontier.put(start_state)
 
 closed_set = set()
-
+print(f'solved puzzle:\n{start_state.SOLVED_PUZZLE}')
 num_states = 0
+print(f'Frontier Empty? {frontier.empty()}')
 while not frontier.empty():
     #  choose state at front of priority queue
     next_state = frontier.get()
