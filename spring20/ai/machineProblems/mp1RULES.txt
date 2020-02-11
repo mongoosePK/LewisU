@@ -19,14 +19,19 @@ MP1: A* for Sliding Puzzle
 SEMESTER: [put semester and year here]
 NAME: [your name here]
 
-    3. Executes the A* algorithm with the Manhattan distance heuristic (as discussed in the textbook). The goal state is this configuration:
+    3. Executes the A* algorithm with the Manhattan distance heuristic 
+    (as discussed in the textbook). The goal state is this configuration:
+
 0 1 2
 3 4 5
 6 7 8
 
-    4. Shows the solution in form of the puzzle configurations after each move, the move number, and the action taken. This format should match the sample output shown on the last page.
+    4. Shows the solution in form of the puzzle configurations after each 
+    move, the move number, and the action taken. This format should match 
+    the sample output shown on the last page.
 
-    5. Displays the number of states that A* had to visit in order to get to the solution.
+    5. Displays the number of states that A* had to visit in order to get 
+    to the solution.
 
 
 Additional Requirements
@@ -43,9 +48,13 @@ You will turn in the single mp1.py file using BlackBoard.
 
 
 HINTS
-    • It’s easiest to implement A* if you first define the class of PuzzleState objects. These should contain at least the following: the puzzle configuration (a numpy 2d array), the g/h/f costs, predecessor state reference, and the action that was taken to get to this state from the predecessor.
-    • Use Python’s built-in PriorityQueue from the queue package to implement the frontier (open) set. Make sure to implement the __lt__ method in your PuzzleState class.
-    • Use Python’s built-in set object to implement the closed set. You will need to make sure you implement the __hash__ method in your PuzzleState class to do this.
+    • It’s easiest to implement A* if you first define the class of PuzzleState objects. These should contain at least the following: 
+    the puzzle configuration (a numpy 2d array), the g/h/f costs, predecessor state reference, and the action that was taken to get to 
+    this state from the predecessor.
+    • Use Python’s built-in PriorityQueue from the queue package to implement the frontier (open) set. Make sure to 
+    implement the __lt__ method in your PuzzleState class.
+    • Use Python’s built-in set object to implement the closed set. You will need to make sure you implement the __hash__ method in your 
+    PuzzleState class to do this.
     • 
 Sample Program Output 1
 Artificial Intelligence
