@@ -83,5 +83,3 @@ graph.add_edge('F', 'G', 2)
 start = input('Please enter a start Node')
 end = input('Please enter an end Node:')
 print(f'{shortest_path(graph, start, end)}')
-
-print(shortest_path(graph, 'A', 'D'))
