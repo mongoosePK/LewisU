@@ -20,7 +20,7 @@ class Graph(object):
 
 
 def dijkstra(graph, initial):
-    visited = {initial: 0}
+    explored = {initial: 0}
     path = {}
 
     nodes = set(graph.nodes)
@@ -28,31 +28,31 @@ def dijkstra(graph, initial):
     while nodes:
         min_node = None
         for node in nodes:
-            if node in visited:
+            if node in explored:
                 if min_node is None:
                     min_node = node
-                elif visited[node] < visited[min_node]:
+                elif explored[node] < explored[min_node]:
                     min_node = node
         if min_node is None:
             break
 
         nodes.remove(min_node)
-        current_weight = visited[min_node]
+        current_weight = explored[min_node]
 
         for edge in graph.edges[min_node]:
             try:
                 weight = current_weight + graph.distances[(min_node, edge)]
             except:
                 continue
-            if edge not in visited or weight < visited[edge]:
-                visited[edge] = weight
+            if edge not in explored or weight < explored[edge]:
+                explored[edge] = weight
                 path[edge] = min_node
 
-    return visited, path
+    return explored, path
 
 
 def shortest_path(graph, origin, destination):
-    visited, paths = dijkstra(graph, origin)
+    explored, paths = dijkstra(graph, origin)
     full_path = deque()
     _destination = paths[destination]
 
@@ -63,25 +63,27 @@ def shortest_path(graph, origin, destination):
     full_path.appendleft(origin)
     full_path.append(destination)
 
-    return visited[destination], list(full_path)
+    return explored[destination], list(full_path)
 
 
 graph = Graph()
 
-for node in ['A', 'B', 'C', 'D', 'E', 'F', 'G']:
+for node in ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']:
     graph.add_node(node)
 
-graph.add_edge('A', 'B', 10)
-graph.add_edge('A', 'C', 20)
-graph.add_edge('B', 'D', 15)
-graph.add_edge('C', 'D', 30)
-graph.add_edge('B', 'E', 50)
-graph.add_edge('D', 'E', 30)
-graph.add_edge('E', 'F', 5)
-graph.add_edge('F', 'G', 2)
+graph.add_edge('A', 'B', 8)
+graph.add_edge('A', 'C', 14)
+graph.add_edge('B', 'D', 9)
+graph.add_edge('C', 'D', 20)
+graph.add_edge('B', 'E', 5)
+graph.add_edge('D', 'E', 13)
+graph.add_edge('E', 'F', 11)
+graph.add_edge('F', 'G', 4)
+graph.add_edge('F', 'H', 6)
+graph.add_edge('F', 'B', 25)
 
-start = input('Please enter a start Node')
-end = input('Please enter an end Node:')
+
+
+start = input('Please enter a start Node: ')
+end = input('Please enter an end Node: ')
 print(f'{shortest_path(graph, start, end)}')
-
-print(shortest_path(graph, 'A', 'D'))

@@ -90,9 +90,9 @@ class GenGameBoard:
     # Determines whether a game winning condition exists
     # If so, returns True, and False otherwise
     def checkWin(self, mark):
-        won = False # Variable holding the return value
+        won = False 
         
-        # Check wins by examining each combination of positions
+        
         
         # Check each row
         for i in range(self.boardSize):
@@ -134,24 +134,27 @@ class GenGameBoard:
         return won
     
     # Determines whether the board is full
-    # If full, returns True, and False otherwise
     def noMoreMoves(self):
         return (self.marks!=' ').all()
 
     
-    # TODO - this method should run minimax to determine the value of each move
+    # TODO - this method should run MINIMAX to determine the value of each move
     # Then make best move for the computer by placing the mark in the best spot
     def makeCompMove(self):
         # This code chooses a random computer move - just for testing purposes
         # REMOVE THIS AFTER IMPLEMENTING AI
         # Make sure the move was possible, if not try again
-        row, col = -1, -1
-        while not self.makeMove(row, col, 'O'):
-            col = random.randint(1,boardSize)
-            row = random.randint(1,boardSize)
-        print("Computer chose: "+str(row)+","+str(col))
         
         # Run alpha beta search here
+        
+        ######################DUMMY_CODE#############################
+        # row, col = -1, -1
+        # while not self.makeMove(row, col, 'O'):
+        #     col = random.randint(1,boardSize)
+        #     row = random.randint(1,boardSize)
+        # print("Computer chose: "+str(row)+","+str(col))
+        #########################END_DUMMY_CODE##########################
+        
         
 
 # Print out the header info
