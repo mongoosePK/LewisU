@@ -180,7 +180,7 @@ class GenGameBoard:
             for j in range(self.boardSize):
                 if (self.marks[i][j] == ' '):
                     self.marks[i][j] = 'X'
-                    (u, newRow, newCol) = self.min_value(alpha, beta)
+                    (u, newRow, newCol) = self.max_value(alpha, beta)
                     # saving superior move
                     if u < utility:
                         utility = u
@@ -195,10 +195,7 @@ class GenGameBoard:
         return (utility, move_row, move_col)
 
 
-    def alpha_beta_search(self):
-        (utility, move_row, move_col) = self.max_value(-2,2)
-        return (utility, move_row, move_col)
-
+ 
     ##### TODO #####
     # Create function to check for best move
     #####      #####
