@@ -63,6 +63,10 @@ class GenGameBoard:
         if row== -1 and col==-1:
             return False
         
+        # convert user entries to array indexes
+        row = row - 1
+        col = col - 1
+        
         if row < 0 or row >= self.boardSize or col < 0 or col >= self.boardSize:
             print("Not a valid row or column!")
             return False
@@ -124,88 +128,95 @@ class GenGameBoard:
 
         return won
     
-    # Determines whether the board is full
+    # Determines whether the board is fullalpha
     def noMoreMoves(self):
         return (self.marks!=' ').all()
 
-    #def max_value(self):
     def max_value(self, alpha, beta):
+
+    # checkWin and then see if there are no more moves (in this order)
+        if (self.checkWin('X')==True):
+            return 1
+        elif (self.checkWin('O')==True):
+            return -1
+        elif (self.noMoreMoves()==True):
+            return 0
+        
+    
         utility = -2 #no need for negative infinity cuz -1 is a bad as it gets.
         move_row = None
         move_col = None
-    # checkWin and then see if there are no more moves (in this order)
-        if (self.checkWin('X')==True):
-            return -1,0,0
-        elif (self.checkWin('O')==True):
-            return 1,0,0
-        elif (self.noMoreMoves()==True):
-            return 0,0,0
-        
-       
+        unusedComp = []
         for i in range(self.boardSize):
             for j in range(self.boardSize):
                 if (self.marks[i][j] == ' '):
-                    self.marks[i][j] = 'O'
-                    #(u, newRow, newCol) = self.min_value()
-                    (u, newRow, newCol) = self.min_value(alpha, beta)
-                    # saving superior move
-                    if u > utility:
-                        utility = u
-                        move_row = i
-                        move_col = j
-                    self.marks[i][j] = ' ' #undo move
+                    unusedComp.append([i, j])
 
-                    # if utility >= beta:
-                    #     return (utility, move_row, move_col)
-                    # alpha = max(alpha, utility)
+        for a in unusedComp:
+        # make move here
+            row = (int(r) for r,c in a)
+            col = (int(c) for r,c in a)
+            # directly mark
+            self.marks[row][col] = 'O'
+            #v = self.min_value(alpha, beta)
+            (u, newRow, newCol) = self.min_value(alpha, beta)
+            # saving superior move
+            if u > utility:
+                utility = u
+                move_row = row
+                move_col = col
+            self.marks[row][col] = ' ' #undo move
+            
+            
 
-        return (utility, move_row, move_col)
+        return utility, move_row, move_col
 
     def min_value(self, alpha, beta):
 
+        if (self.checkWin('X')==True):
+            return 1
+        elif (self.checkWin('O')==True):
+            return -1
+        elif (self.noMoreMoves()==True):
+            return 0
+        
         utility = 2 #math.inf not needed cuz it doesn't get beter than 1
         move_row = None
         move_col = None
-
-        if (self.checkWin('X')==True):
-            return -1,0,0
-        elif (self.checkWin('O')==True):
-            return 1,0,0
-        elif (self.noMoreMoves()==True):
-            return 0,0,0
-        
-
-        
+        unusedUser = []
         for i in range(self.boardSize):
             for j in range(self.boardSize):
                 if (self.marks[i][j] == ' '):
-                    self.marks[i][j] = 'X'
-                    (u, newRow, newCol) = self.min_value(alpha, beta)
-                    # saving superior move
-                    if u < utility:
-                        utility = u
-                        move_row = i
-                        move_col = j
-                    self.marks[i][j] = ' ' #undo move
+                    unusedUser.append([i, j])
+                    
 
-                    # if utility <= beta:
-                    #     return (utility, move_row, move_col)
-                    # beta = min(beta, utility)
-        
-        return (utility, move_row, move_col)
+        for a in unusedUser:
+            # make move here
+            row = (int(r) for r,c in a)
+            col = (int(c) for r,c in a)
+            # directly mark
+            self.marks[row][col] = 'X'
+            (u, newRow, newCol) = self.max_value(alpha, beta)
+            if u < utility:
+                utility = u
+                move_row = row
+                move_col = col
+            self.marks[row][col] = ' '
 
+
+           
+        return utility, move_row, move_col
 
     def alpha_beta_search(self):
-        (utility, move_row, move_col) = self.max_value(-2,2)
-        return (utility, move_row, move_col)
+        v, move_row, move_col = self.max_value(-(math.inf), math.inf)
 
-    ##### TODO #####
-    # Create function to check for best move
-    #####      #####
-    
-    # TODO - this method should run MINIMAX to determine the value of each move
-    # Then make best move for the computer by placing the mark in the best spot
+        return v, move_row, move_col
+
     def makeCompMove(self):
+        # This code chooses a random computer move - just for testing purposes
+        # REMOVE THIS AFTER IMPLEMENTING AI
+        # Make sure the move was possible, if not try again
+        # Run alpha beta search here
         
         ######################DUMMY_CODE#############################
         # row, col = -1, -1
@@ -214,7 +225,7 @@ class GenGameBoard:
         #     row = random.randint(1,boardSize)
         # print("Computer chose: "+str(row)+","+str(col))
         #########################END_DUMMY_CODE##########################
-        utility, row, col = self.max_value(-2,2)
+        row, col = self.alpha_beta_search()
         self.makeMove(row, col, 'O')
 
 # Print out the header info
@@ -241,8 +252,8 @@ while True:
     while not board.makeMove(row, col, 'X'):
         print("Player's Move")
         row, col = input("Choose your move (row, column): ").split(',')
-        row = int(row)-1
-        col = int(col)-1
+        row = int(row)
+        col = int(col)
 
     # Display the board again
     board.printBoard()
@@ -278,102 +289,8 @@ else:
     print("It was a draw!")
 
 
-###########################################################################
-############ END USED CODE ##############################################
-###########################################################################
-# def max_value(self, alpha, beta):
-
-#     # checkWin and then see if there are no more moves (in this order)
-#     if (self.checkWin('X')==True):
-#         return 1
-#     elif (self.checkWin('O')==True):
-#         return -1
-#     elif (self.noMoreMoves()==True):
-#         return 0
-       
-#     utility = -2 #no need for negative infinity cuz -1 is a bad as it gets.
-#     move_row = None
-#     move_col = None
-#     unusedComp = []
-#     for i in range(self.boardSize):
-#         for j in range(self.boardSize):
-#             if (self.marks[i][j] == ' '):
-#                 #unusedComp.append([i, j])
-#                 self.marks[row][col] = 'O'
-#                 # v = self.min_value(alpha, beta)
-#                 (u, newRow, newCol) = self.min_value(alpha, beta)
-#                 # saving superior move
-#                 if u > utility:
-#                     utility = u
-#                     move_row = i
-#                     move_col = j
-#             self.marks[row][col] = ' ' #undo move
-
-#             if utility >= beta:
-#                 return utility, move_row, move_col
-#             alpha = max(alpha, utility)
-
-#     return utility, move_row, move_col
-
-#     # for a in unusedComp:
-#     #     # make move here
-#     #     row, col = a
-#     #     # directly mark
-#     #     self.marks[row][col] = 'O'
-#     #     # v = self.min_value(alpha, beta)
-#     #     (u, )
-#     #     # saving superior move
-
-#     #     self.marks[row][col] = ' ' #undo move
 
 
-#     #     if utility >= beta:
-#     #         return utility
-#     #     alpha = max(alpha, utility)
 
 
-# def min_value(self, alpha, beta):
 
-#     if (self.checkWin('X')==True):
-#         return 1
-#     elif (self.checkWin('O')==True):
-#         return -1
-#     elif (self.noMoreMoves()==True):
-#         return 0
-    
-#     utility = 2 #math.inf not needed cuz it doesn't get beter than 1
-#     move_row = None
-#     move_col = None
-#     unusedUser = []
-#     for i in range(self.boardSize):
-#         for j in range(self.boardSize):
-#             if (self.marks[i][j] == ' '):
-#                 #unusedUser.append([i, j])
-#                 (u, newRow, newCol) = self.min_value(alpha, beta)
-#                 # saving superior move
-#                 if u < utility:
-#                     utility = u
-#                     move_row = i
-#                     move_col = j
-#             self.marks[row][col] = ' ' #undo move
-
-#             if utility <= beta:
-#                 return utility, move_row, move_col
-#             alpha = min(alpha, utility)
-    
-#     return utility, move_row, move_col
-
-#     # for a in unusedUser:
-#     #     # make move here
-#     #     row, col = a
-#     #     # directly mark
-#     #     self.marks[row][col] = 'X'
-#     #     utility = self.max_value(alpha, beta)
-#     #     self.marks[row][col] = ' '
-
-
-#     #     if utility <= alpha:
-#     #         return utility
-#     #     beta = min(beta, utility)
-    
-    
