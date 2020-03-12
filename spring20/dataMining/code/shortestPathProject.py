@@ -72,16 +72,19 @@ for node in ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']:
     graph.add_node(node)
 
 
-graph.add_edge('A', 'B', 10)
-graph.add_edge('A', 'C', 20)
-graph.add_edge('B', 'D', 15)
-graph.add_edge('C', 'D', 30)
-graph.add_edge('B', 'E', 50)
-graph.add_edge('D', 'E', 30)
-graph.add_edge('E', 'F', 5)
-graph.add_edge('F', 'G', 2)
+graph.add_edge('A', 'B', 20)
+graph.add_edge('A', 'C', 30)
+graph.add_edge('B', 'D', 25)
+graph.add_edge('C', 'D', 40)
+graph.add_edge('B', 'E', 60)
+graph.add_edge('D', 'E', 40)
+graph.add_edge('E', 'F', 15)
+graph.add_edge('F', 'G', 12)
+graph.add_edge('F', 'H', 16)
+graph.add_edge('F', 'B', 25)
 
-start = input('Please enter a start Node')
-end = input('Please enter an end Node:')
+
+start = input('Please enter a start Node: ')
+end = input('Please enter an end Node: ')
 
 print(f'{shortest_path(graph, start, end)}')
