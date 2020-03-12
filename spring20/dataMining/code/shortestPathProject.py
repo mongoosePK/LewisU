@@ -17,6 +17,7 @@ class Graph(object):
         self.edges[from_node].append(to_node)
         self.edges[to_node].append(from_node)
         self.distances[(from_node, to_node)] = distance
+        self.distances[(to_node, from_node)] = distance
 
 
 def dijkstra(graph, initial):
@@ -82,6 +83,7 @@ graph.add_edge('E', 'F', 15)
 graph.add_edge('F', 'G', 12)
 graph.add_edge('F', 'H', 16)
 graph.add_edge('F', 'B', 25)
+graph.add_edge('C', 'H', 5) 
 
 
 start = input('Please enter a start Node: ')
