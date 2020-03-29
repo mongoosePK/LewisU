@@ -7,7 +7,7 @@ ul li {
   margin-bottom:20px;
 }
 ul > a {
-  color:green;
+  color:#26A69A;
   position:relative;
 }
 [class = "link"]:hover,ul > a:hover{
