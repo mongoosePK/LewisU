@@ -26,8 +26,17 @@ SECRET_KEY = 'd&hnd)e^$8e!4&i$h-%_0f34&g=tkvc*aqun(5uinr)@6z)*4f'
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
-
+TWILIO_ACCOUNT_SID = 'AC14a104141d74e903b309af874c4ff626'
+TWILIO_AUTH_TOKEN = 'bb7db7f8a88d759e5063378e0874f51d'
+TWILIO_NUMBER ='+12017333892'
+# TWILIO_ACCOUNT_SID = os.getenv("TWILIO_ACCOUNT_SID")
+# TWILIO_AUTH_TOKEN = os.getenv("TWILIO_AUTH_TOKEN")
+# TWILIO_NUMBER = os.getenv("TWILIO_NUMBER")
+# SMS_BROADCAST_TO_NUMBERS = [ 
+#     "", # use the format +19735551234
+#     "", 
+#     "", 
+# ]
 # Application definition
 
 INSTALLED_APPS = [

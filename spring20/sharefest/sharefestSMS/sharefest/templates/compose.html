@@ -3,5 +3,14 @@
 {% block content %}
     <h1>Your SMS service</h1>
     <h2>Twilio integrated sms boxes</h2>
-    <p>you sent me a text</p>
+    <p>Please compose a message</p>
+    <div class="sms-field">
+        <form id="SMSForm" action="/sms/result" class="form-inline">
+            
+            {{ form.query }}
+            <div style="display: inline-flex;">
+                <input class="btn btn-primary text-center search"type="submit" value="SEARCH" name="">
+            </div>
+        </form>
+       </div>
 {% endblock %}
