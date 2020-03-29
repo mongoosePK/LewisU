@@ -21,5 +21,8 @@ def sign_up(request):
         form = UserCreationForm()
     return render(request, 'sign_up.html',{'form':form})
 
-def settings(request):
-    return render(request, 'settings.html')
+def compose(request):
+    return render(request, 'compose.html')
+
+def upload(request):
+    return render(request, 'upload.html')

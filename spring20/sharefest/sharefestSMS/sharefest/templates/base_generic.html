@@ -21,7 +21,8 @@
           {% endif %}
          {% if user.is_authenticated %}
            <li>User: {{ user.get_username }}</li>
-           
+           <a href="{% url 'compose' %}"><li class="link">Compose</li></a>
+           <a href="{% url 'upload' %}"><li class="link">Upload Contacts</li></a>
            <a href="{% url 'logout'%}?next={{request.path}}"><li class="link">Logout</li></a>
          {% else %}
            <a href="{% url 'login'%}?next={{request.path}}"><li class="link">Login</li></a>
