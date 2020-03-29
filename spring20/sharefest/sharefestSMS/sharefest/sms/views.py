@@ -3,9 +3,10 @@ from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.conf import settings
-import datetime
 from twilio.rest import Client
-
+from .forms import SMSForm
+from .models import Contact
+import datetime
 
 @login_required
 def index(request):
@@ -25,21 +26,35 @@ def sign_up(request):
 
 @login_required
 def compose(request):
-    
+    form = SMSForm()
+    context = { 'form': form }
 
 
     return render(request, 'compose.html', context=context)
 
 @login_required
-def send_message(request):
-    #for recipients we will build a list here using form data to query
-    #our db of cliends and create a list for twilio to iterate through
+def result(request):
+    if request.method == 'GET':
+        form = SMSForm(request.GET)
+
+        if form.is_valid():
+            is_pantry = form.cleaned_data.get('isPantry', '')
+            zip_code = form.cleaned_data.get('zip_code', '')
+            body = form.cleaned_data.get('body', '')
+        ## TODO ##
+        # I'd say this is a good place to call the forms.getnumbers()
+        # and constrtruct a list out of the returns from the query
+        # phone-numbers [list] = forms.getnumbers(form) 
+        # for now We'll just use a dummy list of numbers
+
+    ## TODO ##
+    ## Hide this acct key stuff in a .env file
     account_sid = 'AC14a104141d74e903b309af874c4ff626'
     auth_token = '89214aebacde803fada05b92165fff4c'
     messaging_service_sid = 'MG65a3bf6b7a813d0487eb7c6b69609bbb'
-    recipients = ['+18034047382']
+    recipients = ['+18034047382', '+18034047382']
     client = Client(account_sid, auth_token)
-    message_to_broadcast = ("Get that Bread")
+    message_to_broadcast = (f'{body}')
     for recipient in recipients:
         if recipient:
             message = client.messages.create(to=recipient,messaging_service_sid=messaging_service_sid,
@@ -50,7 +65,7 @@ def send_message(request):
         'message_body' : message.body,
         'message_sid' : message.sid
     }
-    return render(request, 'message_result.html', context=context)
+    return render(request, 'result.html', context=context)
 
 @login_required
 def upload(request):

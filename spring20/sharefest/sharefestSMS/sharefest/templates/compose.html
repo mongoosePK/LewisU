@@ -6,10 +6,12 @@
     <p>Please compose a message</p>
     <div class="sms-field">
         <form id="SMSForm" action="/sms/result" class="form-inline">
-            
-            {{ form.query }}
+            {% csrf_token %}
+            <p>Send to Pantries? {{ form.isPantry }}</p><br>
+            <p>ZIP{{ form.zip_code }}</p>
+            {{ form.body }}
             <div style="display: inline-flex;">
-                <input class="btn btn-primary text-center search"type="submit" value="SEARCH" name="">
+                <input class="btn btn-primary text-center send" type="submit" value="SEND" name="">
             </div>
         </form>
        </div>
