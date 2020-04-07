@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.conf import settings
 from twilio.rest import Client
-from .forms import SMSForm
+from .forms import SMSForm, getNumbers
 from .models import Contact
 import datetime
 
@@ -19,7 +19,7 @@ def sign_up(request):
         if form.is_valid():
             form.save()
             #log user in
-            return redirect('home')
+            return redirect('index')
     else:
         form = UserCreationForm()
     return render(request, 'sign_up.html',{'form':form})
