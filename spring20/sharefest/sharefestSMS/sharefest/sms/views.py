@@ -49,8 +49,8 @@ def result(request):
 
     ## TODO ##
     ## Hide this acct key stuff in a .env file
-    account_sid = 'AC14a104141d74e903b309af874c4ff626'
-    auth_token = '89214aebacde803fada05b92165fff4c'
+    account_sid = 'ACCT_SID_HERE'
+    auth_token = 'AUTH_TOKEN_HERE'
     messaging_service_sid = 'MG65a3bf6b7a813d0487eb7c6b69609bbb'
     recipients = ['+18034047382', '+18034047382']
     client = Client(account_sid, auth_token)
