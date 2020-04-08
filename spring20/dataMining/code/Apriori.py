@@ -61,26 +61,49 @@ def generateProduct(f_k) :
                 addToCandidateSet = True
                 duplicateCount = 0
                 for cSet in candidateSet :
-                    duplicate = True
+                    isContained = True
                     for item in newSet :
                         if item not in cSet :
-                            duplicate = False
-                    if duplicate == True :
+                            isNotContained = False
+                    if isNotContained == True :
                         addToCandidateSet= False
                             
                 if addToCandidateSet :
                     candidateSet.append(newSet)
     return candidateSet
 
+def doFilter(c_k):
+    frequencyCount = {}
+    f_k = []
+    for transaction in tDb:
+        # if any item is not in c_k then do not increment the frequesncy count
+        for index, cset in enumerate(c_k):
+            incrementFrequency = True
+            for item in cset:
+                if item not in transaction:
+                    incrementFrequency = False
+            if incrementFrequency == True:
+                if index in frequencyCount.keys():
+                    frequencyCount[index] += 1
+                else:
+                    frequencyCount[index] = 0
+
+    for key in frequencyCount:
+        if frequencyCount[key] >= minSupport:
+            f_k.append(c_k[key])
+    return f_k
 
 c_1 = generateProduct(F[0])
-
+print(f"the F[1] is {str(doFilter(c_1))}")
 print("The candidate set is " + str(c_1))
+k = 0
 
+while len(F[k]) != 0:
+    c_k = generateProduct(F[k])
+    #filter c_k
+    element = doFilter(c_k)
+    F.append(element)
+    k = k+1
 
-
-
-    
-
-
-
+for i in range(len(F)):
+    print(f"F[{i}]: {str(F[i])}")

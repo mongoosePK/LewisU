@@ -139,17 +139,17 @@ class GenGameBoard:
             return 0,0,0
         
        
-        for i in range(self.boardSize):
-            for j in range(self.boardSize):
-                if (self.marks[i][j] == ' '):
-                    self.marks[i][j] = 'O'
+        for row in range(self.boardSize):
+            for col in range(self.boardSize):
+                if (self.marks[row][col] == ' '):
+                    self.marks[row][col] = 'O'
                     u, newRow, newCol = self.min_value(alpha, beta)
                     # saving superior move
                     if u > utility:
                         utility = u
-                        move_row = i
-                        move_col = j
-                    self.marks[i][j] = ' ' #undo move
+                        move_row = row
+                        move_col = col
+                    self.marks[row][col] = ' ' #undo move
                     # alfa/beta pruning
                     if utility >= beta:
                         return utility, move_row, move_col
@@ -170,16 +170,16 @@ class GenGameBoard:
         elif (self.noMoreMoves()==True):
             return 0,0,0
         
-        for i in range(self.boardSize):
-            for j in range(self.boardSize):
-                if (self.marks[i][j] == ' '):
-                    self.marks[i][j] = 'X'
+        for row in range(self.boardSize):
+            for col in range(self.boardSize):
+                if (self.marks[row][col] == ' '):
+                    self.marks[row][col] = 'X'
                     u, newRow, newCol = self.max_value(alpha, beta)
                     if u < utility:
                         utility = u
-                        move_row = i
-                        move_col = j
-                    self.marks[i][j] = ' '
+                        move_row = row
+                        move_col = col
+                    self.marks[row][col] = ' '
 
                     if utility <= alpha:
                         return utility, move_row, move_col 
