@@ -62,32 +62,22 @@ def get_possible_course_list(start, finish):
 
     """ TODO FROM HERE... """    
     # Core course terms
-    core_courses = course_offerings[course_offerings.Type=='core']
-    for r,row in core_courses.iterrows():
-        problem.addVariable(row.Course, create_term_list(list(row[row==1].index)))
-
+    # core_courses = course_offerings[course_offerings.Type=='core']
+    # for r,row in core_courses.iterrows():
+    #     problem.addVariable(row.Course, create_term_list(list(row[row==1].index)))
     
     # CS Electives course terms (-x = elective not taken)
-    elective_courses = course_offerings[course_offerings.Type=='elective']
-    for r,row in elective_courses.iterrows():
-        electiveTermList = create_term_list(list(row[row==1].index))
-        for i in range(5):
-            electiveTermList.insert(0, (i+1)*-1)
-        print(electiveTermList)
-        problem.addVariable(row.Course, electiveTermList)
+
     
     # Capstone
-    #########
     capstone_courses = course_offerings[course_offerings.Type=='capstone']
     for r,row in capstone_courses.iterrows():
         problem.addVariable(row.Course, create_term_list(list(row[row==1].index)))
     
     # Guarantee no repeats of courses
-    ########
-    problem.addConstraint(AllDifferentConstraint())
+
     
     # Control start and finish terms
-    #########
     def finish_by_term(a):
         if a <= 14:
             return True
@@ -95,28 +85,12 @@ def get_possible_course_list(start, finish):
     for r,row in course_offerings.iterrows():
         problem.addConstraint(finish_by_term, [row.Course])
 
-    # Control electives - exactly 3 courses must be chosen
-    ###########
-    electiveCourseList = []
-    for r,row in elective_courses.iterrows():
-        electiveCourseList.append(row.Course)
     
+    # Control electives - exactly 3 courses must be chosen
 
-    problem.addConstraint(InSetConstraint([-1,-2,-3,-4,-5]), electiveCourseList)
-    problem.addConstraint(SomeInSetConstraint([0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24]), electiveCourseList)
     
     # Prereqs    
-    ########
-    prereqList = []
-    for r,row in course_prereqs.iterrows():
-        prereqList.append(row.prereq)
-
-    coursey = []
-    for r,row in course_prereqs.iterrows():
-        coursey.append(row.course)
-
-    for i in range(len(prereqList)):
-        problem.addConstraint(prereq, [prereqList[i],coursey[i]])
+    
     
     """ ...TO HERE """
     
@@ -128,7 +102,7 @@ def get_possible_course_list(start, finish):
 
 # Print heading
 print("CLASS: Artificial Intelligence, Lewis University")
-print("NAME: William Pulkownik")
+print("NAME: [put your name here]")
 
 # Check for possible schedules for all start terms
 for start in [1]:
