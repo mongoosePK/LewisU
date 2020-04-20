@@ -1,5 +1,10 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+# mp3.py
+# author: Dr. Sczurek, W. Pulkownik
+# 19APR2020
+# This program is supposed to use CSP methods 
+# to create a course schedule
 """
 Program checks if there are possible schedules for students for a given
 start and finish term, given all constraints.
@@ -129,7 +134,7 @@ def get_possible_course_list(start, finish):
 
 # Print heading
 print("CLASS: Artificial Intelligence, Lewis University")
-print("NAME: [put your name here]")
+print("NAME: William Pulkownik")
 
 # Check for possible schedules for all start terms
 for start in [1]:
