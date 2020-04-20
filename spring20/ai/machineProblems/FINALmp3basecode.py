@@ -62,12 +62,16 @@ def get_possible_course_list(start, finish):
 
     """ TODO FROM HERE... """    
     # Core course terms
-    # core_courses = course_offerings[course_offerings.Type=='core']
-    # for r,row in core_courses.iterrows():
-    #     problem.addVariable(row.Course, create_term_list(list(row[row==1].index)))
+    core_courses = course_offerings[course_offerings.Type=='core']
+    for r,row in core_courses.iterrows():
+        problem.addVariable(row.Course, create_term_list(list(row[row==1].index)))
     
     # CS Electives course terms (-x = elective not taken)
-
+    elective_courses = course_offerings[course_offerings.Type=='elective']
+    for r,row in elective_courses.iterrows():
+        electiveTermList = create_term_list(list(row[row==1].index))
+        electiveTermList.insert(0, (r+1)*-1)
+        problem.addVariable(row.Course, electiveTermList)
     
     # Capstone
     capstone_courses = course_offerings[course_offerings.Type=='capstone']
@@ -75,22 +79,45 @@ def get_possible_course_list(start, finish):
         problem.addVariable(row.Course, create_term_list(list(row[row==1].index)))
     
     # Guarantee no repeats of courses
-
+    problem.addConstraint(AllDifferentConstraint)
     
     # Control start and finish terms
+    def start_term(a):
+        if a>= 0:
+            return True
     def finish_by_term(a):
         if a <= 14:
             return True
+    for r,row in course_offerings.iterrows():
+        problem.addConstraint(start_term, [row.Course])
 
     for r,row in course_offerings.iterrows():
         problem.addConstraint(finish_by_term, [row.Course])
 
     
     # Control electives - exactly 3 courses must be chosen
+    electiveCourseList = []
+    for r,row in elective_courses.iterrows():
+        electiveCourseList.append(row.Course)
 
+    electiveNotTaken = [-10,-11,-12,-13,-14,-15,-16,-17] 
+    fiveNotTaken = np.random.choice(electiveNotTaken, 5, replace=False)
+
+    problem.addConstraint(SomeInSetConstraint(electiveNotTaken), electiveCourseList)
+
+    problem.addConstraint(NotInSetConstraint(fiveNotTaken), electiveCourseList)
     
     # Prereqs    
-    
+    prereqList = []
+    for r,row in course_prereqs.iterrows():
+        prereqList.append(row.prereq)
+
+    course = []
+    for r,row in course_prereqs.iterrows():
+        course.append(row.course)
+
+    for i in range(len(prereqList)):
+        problem.addConstraint(prereq, [prereqList[i],course[i]])
     
     """ ...TO HERE """
     

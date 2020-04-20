@@ -1,13 +1,14 @@
 import random
 import csv
-
+import pandas as pd
+import itertools
 
 #user databse
 userDatabase = [ ]
 
     
 
-with open("transactionList.csv") as csv_file :
+with open("data/transactionList.csv") as csv_file :
     myFile = csv.reader(csv_file,delimiter=',')
 
     newList = []

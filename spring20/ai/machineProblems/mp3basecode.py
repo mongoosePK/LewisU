@@ -88,9 +88,14 @@ def get_possible_course_list(start, finish):
     
     # Control start and finish terms
     #########
+    def start_term(a):
+        if a>= 0:
+            return True
     def finish_by_term(a):
         if a <= 14:
             return True
+    for r,row in course_offerings.iterrows():
+        problem.addConstraint(start_term, [row.Course])
 
     for r,row in course_offerings.iterrows():
         problem.addConstraint(finish_by_term, [row.Course])
@@ -133,7 +138,7 @@ print("NAME: William Pulkownik")
 # Check for possible schedules for all start terms
 for start in [1]:
     print('START TERM = ' + map_to_term_label(start))
-    s = get_possible_course_list(start,start+13)
+    s = get_possible_course_list(start-1,start+13)
     if s.empty:
         print('NO POSSIBLE SCHEDULE!')
     else:
