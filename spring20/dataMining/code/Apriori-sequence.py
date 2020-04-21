@@ -174,7 +174,7 @@ c_1 = generateProduct(F[0])
 #print("The candidate set is " + str(c_1))
 k = 0
 
-val = input("Enter the type of Apriori algorithm 0 - non sequence, 1 - sequence: ")
+val = int(input("Enter the type of Apriori algorithm 0 - non sequence, 1 - sequence: "))
 
 if val == 0 : 
     # Here is the non-sequence version

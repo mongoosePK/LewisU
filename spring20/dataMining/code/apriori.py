@@ -1,21 +1,28 @@
 # apriori.py
 # William Pulkownik
+# Data Mining Spring 2020
+
 # my version of the apriori project for data mining
+# I tried to do it all in Dataframes and Dicts at first
+# But it ended up being a lot more work because I would have
+# had to rewrite most of the driver code you gave us
 
 import random
 import pandas as pd
 import itertools
 from itertools import combinations
-from collections import defaultdict
-#formatting options for pandas
-pd.set_option("display.max_rows", None, "display.max_columns", None)
+from collections import defaultdict, Counter
 
 # this block reads csv into a dataframe, drops NaN, and creates a list  
 data = pd.read_csv('data/transactionList.csv',header=None)
 data = data.dropna(axis='columns')
 transactions = data.values.tolist()
 
-#create dict of lists to store all transactions by user for every 10 transactions
+# here we create dict of lists for transactions by user for every 10 transactions
+# UserTransactions = {1:[[transaction1],[transaction2],[transaction3],[...]]
+#                     2:[[transaction1],[transaction2],[transaction3],[...]]
+#                      ...
+#                     10:[[transaction1],[transaction2],[transaction3],[...]]}
 userTransactions = defaultdict(list)
 new_user=0
 for index, transaction in enumerate(transactions):
@@ -25,9 +32,13 @@ for index, transaction in enumerate(transactions):
 for i in range(1,11):
     print(f'User {i}:\n {userTransactions[i]}\n')
 
+
+# This function generates the list F[0]
+# which contains all of the single elements meeting the minimum support
+# and appends those values to the list passed into the function
 def generateF_0(userFrequencySet):
     frequencyMap = {}
-    for transaction in transactions:
+    for transaction in tDb:
         for item in transaction:
             if item in frequencyMap.keys():
                 frequencyMap[item] += 1
@@ -35,13 +46,14 @@ def generateF_0(userFrequencySet):
                 frequencyMap[item] = 1
     newFSet = []
     for key in frequencyMap :
-        # print(key,frequencyMap[key])
         if frequencyMap[key] >= minSupport :
             newSet = []
             newSet.append(key)
             newFSet.append(newSet)
 
     userFrequencySet.append(newFSet)
+
+# this function generates the catesian cross product of the Fk] and F[0]
 
 def generateProduct(f_k,F_0) :
     candidateSet = []
@@ -68,12 +80,13 @@ def generateProduct(f_k,F_0) :
                     candidateSet.append(newSet)
     return candidateSet
 
-def doSequenceFilter(candidateSet) :
+# This function filters sequenced item sets that do not meet the minimum support
 
+def doSequenceFilter(candidateSet) :
     cSize = len(candidateSet)
     cSetString = ''.join(map(str,candidateSet))
     minimumSupportCount = 0
-    for transaction in userTransactions :
+    for transaction in tDb :
         # Looking at index + cSize in the transaction list
         # if this matches the candidate set then return true
         # otherwise we advance to the next index and to the same
@@ -103,10 +116,9 @@ def doSequenceFilter(candidateSet) :
     else :
         return False
 
-
+# this function generates the cross product for sequenced transactions
 def generateSequenceProduct(f_k,F_0) :
     f_k_1 = []
-
     for sets in f_k :
         for item in F_0 :
             if item in sets :
@@ -123,15 +135,16 @@ def generateSequenceProduct(f_k,F_0) :
                     
     return f_k_1
 
+# this function filters out nonsequenced item sets that don't meet the support
 def doFilter(c_k) :
     frequencyCount = {}
     f_k = []
-    for transaction in userTransactions :
+    for transaction in tDb:
         # if any item is not in c_k then do not increment the frequency count
         for index, cset in enumerate(c_k) :
             incrementFrequency = True
             for item in cset :
-                if item not in transaction :
+                if item not in transaction:
                     incrementFrequency = False
             if incrementFrequency == True :
                 if index in frequencyCount.keys() :
@@ -144,21 +157,25 @@ def doFilter(c_k) :
             f_k.append(c_k[key])
     return f_k
 
-
+###################
+# Begin Driver code
+###################
 minSupport = int(input("Enter the minimum support : "))
-kValue = int(input("Enter the k value to show the sequence \
+kValue = int(input("Enter the k value to show the sequence\
     frequency set for the list of users: "))
 kValue1 = int(input("Enter the k value to show the non sequence \
     frequency set for the list of users: "))
 userListsequenceDb = [ ]
 userListnonsequenceDb = []
+
 for user in userTransactions:
+    # here we pass in the userTransactions dict one entry at a time
+    tDb = list(userTransactions[user])
     nonSequenceF = []
     generateF_0(nonSequenceF)
     k = 0
 
-
-    # Here is the non-sequence version
+    # Here is the non-sequence Apriori call for each user
     while len(nonSequenceF[k]) != 0 :
         c_k = generateProduct(nonSequenceF[k],nonSequenceF[0])
         element = doFilter(c_k)
@@ -170,7 +187,7 @@ for user in userTransactions:
     sequenceF = []
     generateF_0(sequenceF)
     k = 0
-    # Generating the sequence set
+    # Generating the sequence set Apriori call for each user
     while len(sequenceF[k]) != 0 :
         sequenceF.append(generateSequenceProduct(sequenceF[k],sequenceF[0]))
         k = k +1
@@ -180,18 +197,28 @@ for user in userTransactions:
     print("Sequence F[k] for user " + str(user) + " : ")
     print(sequenceF)
 
-# temp = defaultdict(list)
-# for i in range(1,len(userTransactions)+1):
-#     for j in userTransactions[i]:
-#         combos = combinations(j,3)
-#         for c in combos:
-#             if temp.get(c):
-#                 temp[c] += 1
-#             else:
-#                 temp[c] = 1
-#     #comboList.append(temp)
-# combodf = pd.DataFrame(columns=['itemSet','support'])
+print("Users non sequence database " + str(kValue1) )
+for element in userListnonsequenceDb :
+    print(element)
+    print("------")
 
-# key = ','.join(map(str,c))
-#     frequencies = pd.DataFrame(temp, columns=['itemSet', 'support'])
-#     return frequencies
+print()
+print()
+
+print("Users sequence database " + str(kValue) )
+for element in userListsequenceDb :
+    print(element)
+    print("------")
+
+# this is where I find the most sommon occurence of items sets
+# purchased among all user transactions
+hiscore = Counter()
+for transaction in transactions:
+    combos = combinations(transaction, minSupport)
+    for c in combos:
+        if hiscore.get(c):
+            hiscore[c] += 1
+        else:
+            hiscore[c] = 1
+
+print(f'most common combination among all users: {hiscore.most_common(1)}')
