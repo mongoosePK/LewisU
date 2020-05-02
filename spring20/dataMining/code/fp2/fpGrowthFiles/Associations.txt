@@ -1,0 +1,11 @@
+Associations [14, 0, 12, 1]  frequency 5 
+Associations [14, 7, 0, 12, 2]  frequency 5 
+Associations [14, 7, 0, 12, 1]  frequency 4 
+Associations [14, 7, 2, 1]  frequency 6 
+Associations [11, 14, 7, 2, 1]  frequency 6 
+Associations [11, 14, 7, 0, 12, 2]  frequency 4 
+Associations [0, 12, 2, 1]  frequency 7 
+Associations [7, 12, 2, 1]  frequency 5 
+Associations [7, 0, 12, 1]  frequency 7 
+Associations [7, 0, 2, 1]  frequency 8 
+Associations [8, 11, 14, 7, 2, 1]  frequency 5 
