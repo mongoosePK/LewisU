@@ -27,7 +27,11 @@ def generateMap(tDb, minSupport) :
             del freqMap[key]
     return freqMap
     
-
+def cut(freq, minSupport):
+    for key in list(freq.keys()):
+        if freq[key] < minSupport:
+            del freq[key]
+    return freq
 ########################################################################
 # Order the transactions based on the highest frequency to lowest frequency
 # There has to be consistant ordering of the ties
@@ -93,7 +97,9 @@ def containedIn(childItem,nodeList) :
 
 def addToPath(pathList, path) :
     found = False
-        
+    for i, path in enumerate(pathList):
+        for item in pathList:
+                coverList[item] = cut(item, minSupport)
     
     # Add more to this function in order to maintain frequency cover for pathList
     # add path to pathList if cover holds
@@ -105,6 +111,7 @@ def addToTree(transaction,parent,childIndex) :
     # Want to know if the childNode really a child within
     # the parent's children
     childNode = containedIn(transaction[childIndex],parent.children)
+    
     #Base condition when we are at the end of the transaction
     if childIndex == len(transaction) -1 :
         if childNode != -1 :
@@ -112,7 +119,6 @@ def addToTree(transaction,parent,childIndex) :
             childNode.frequency += 1
             path = childNode.path
             
-            #coverList = generateMap(childNode.path, minSupport)
 
             # You only need to modify here in order to add to the frequency cover list
             # Filter based on frequency and association size -- len(path)
@@ -128,17 +134,14 @@ def addToTree(transaction,parent,childIndex) :
             children = []
             # childIndex +1 is the new child
             newNode = Node(newPath,children,transaction[childIndex],1)
+            newNode.frequency += 1
             parent.children.append(newNode)
+            coverList = cut(frequencyMap, minSupport)
             
-            # if coverList[newPath] is None:
-            #     coverList[newPath] = newNode
-            #     coverList.frequency +=1
-            # else:
-            #     temp = coverList[newPath]
-            #     while temp.cover is not None:
-            #         temp = temp.cover
-            #     temp.cover = newNode
-
+            temp = coverList
+            if temp is not None:
+                temp = newNode
+                
 
     
         return

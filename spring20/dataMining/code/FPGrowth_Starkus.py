@@ -5,7 +5,7 @@ Created on Tue Apr 23 08:40:19 2019
 @author: tjsta
 """
 
-growthFile = open("fpgrowth.txt","r")
+growthFile = open("transactionDb.txt","r")
 
 data = []
 
