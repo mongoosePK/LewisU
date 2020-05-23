@@ -43,4 +43,4 @@ def print_solutions(solutions):
 
 solutions = problem.getSolutions()
 print_solutions(solutions)
-print("Total number of ways: {}".format(len(solutions)))
+print(f'Total number of ways: {len(solutions)}')
